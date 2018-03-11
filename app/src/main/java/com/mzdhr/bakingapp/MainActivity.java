@@ -1,15 +1,13 @@
 package com.mzdhr.bakingapp;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -18,6 +16,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mzdhr.bakingapp.adapter.RecipeAdapter;
 import com.mzdhr.bakingapp.model.Ingredient;
 import com.mzdhr.bakingapp.model.Recipe;
 import com.mzdhr.bakingapp.model.Step;
@@ -32,13 +31,17 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecipeAdapter.ListItemClickListener{
     private static final String TAG = MainActivity.class.getSimpleName();
-    // Test ButterKnife Lib
+    // Views
     @BindView(R.id.recipeRecyclerView)
     RecyclerView mRecipeRecyclerView;
     @BindString(R.string.app_name)
     String mAppName;
+
+    // Object
+    ArrayList<Recipe> mRecipes;
+    private RecipeAdapter mRecipeAdapter;
 
 
     @Override
@@ -49,23 +52,27 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
-        // Test ButterKnife Lib
-        //mTitleTextView.setText(mAppName);
-        // Test Volley Lib
         requestByVolley();
-        // Test GSON Lib
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        // Setting RecyclerView
+        // TODO: 11/03/2018 if tablet > 600:
+//        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRecipeRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecipeRecyclerView.setHasFixedSize(true);
+
+        mRecipes = new ArrayList<>();
+        setAdapter();
+    }
+
+    private void setAdapter(){
+        mRecipeAdapter = new RecipeAdapter(mRecipes, this);
+        mRecipeRecyclerView.setAdapter(mRecipeAdapter);
     }
 
     private void requestByVolley() {
+
+
         String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
         // Create RequestQueue object
@@ -80,14 +87,14 @@ public class MainActivity extends AppCompatActivity {
                 // progress.dismiss(;
 
                 JSONObject jsonObject = null;
-                ArrayList<Recipe> recipes = new ArrayList<>();
+                mRecipes = new ArrayList<>();
 
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         jsonObject = response.getJSONObject(i);
                         Gson gson = new GsonBuilder().create();
                         Recipe recipe = gson.fromJson(jsonObject.toString(), Recipe.class);
-                        recipes.add(recipe);
+                        mRecipes.add(recipe);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -95,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Log.d(TAG, "-----------------------------------");
-                for (int i = 0; i < recipes.size(); i++) {
-                    Recipe currentRecipe = recipes.get(i);
+                for (int i = 0; i < mRecipes.size(); i++) {
+                    Recipe currentRecipe = mRecipes.get(i);
                     Log.d(TAG, "* Recipe ID: " + currentRecipe.getId());
                     Log.d(TAG, "* Recipe Name: " + currentRecipe.getName());
                     Log.d(TAG, "* Recipe Servings: " + currentRecipe.getServings());
@@ -128,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
+                setAdapter();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -161,5 +169,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+
     }
 }
