@@ -1,5 +1,6 @@
 package com.mzdhr.bakingapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     String mAppName;
 
     // Object
-    ArrayList<Recipe> mRecipes;
+    public static ArrayList<Recipe> mRecipes;
     private RecipeAdapter mRecipeAdapter;
 
 
@@ -173,6 +174,8 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-
+        Intent intent = new Intent(MainActivity.this, ItemListActivity.class);
+        //mRecipes.get(clickedItemIndex).getSteps()
+        startActivity(intent);
     }
 }
