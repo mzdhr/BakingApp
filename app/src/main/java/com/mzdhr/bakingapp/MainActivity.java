@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        Intent intent = new Intent(MainActivity.this, ItemListActivity.class);
+        Intent intent = new Intent(MainActivity.this, StepsActivity.class);
         //mRecipes.get(clickedItemIndex).getSteps()
         startActivity(intent);
     }

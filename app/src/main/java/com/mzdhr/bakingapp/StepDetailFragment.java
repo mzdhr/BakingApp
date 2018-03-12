@@ -14,12 +14,12 @@ import com.mzdhr.bakingapp.dummy.DummyContent;
 
 /**
  * A fragment representing a single Item detail screen.
- * This fragment is either contained in a {@link ItemListActivity}
- * in two-pane mode (on tablets) or a {@link ItemDetailActivity}
+ * This fragment is either contained in a {@link StepsActivity}
+ * in two-pane mode (on tablets) or a {@link StepDetailActivity}
  * on handsets.
  */
-public class ItemDetailFragment extends Fragment {
-    private static String TAG = ItemDetailFragment.class.getSimpleName();
+public class StepDetailFragment extends Fragment {
+    private static String TAG = StepDetailFragment.class.getSimpleName();
 
     /**
      * The fragment argument representing the item ID that this fragment
@@ -36,7 +36,7 @@ public class ItemDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ItemDetailFragment() {
+    public StepDetailFragment() {
     }
 
     @Override
@@ -59,14 +59,17 @@ public class ItemDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.item_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.details);
-        }
+//        MainActivity.mRecipes.get(0).getIngredients().size();
+        String value = MainActivity.mRecipes.get(0).getSteps().get(1).getDescription();
+        ((TextView) rootView.findViewById(R.id.item_detail)).setText(value);
+
+//        // Show the dummy content as text in a TextView.
+//        if (mItem != null) {
+//            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.details);
+//        }
 
         return rootView;
     }

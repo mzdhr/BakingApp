@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mzdhr.bakingapp.ItemDetailActivity;
-import com.mzdhr.bakingapp.ItemDetailFragment;
-import com.mzdhr.bakingapp.ItemListActivity;
+import com.mzdhr.bakingapp.StepDetailActivity;
+import com.mzdhr.bakingapp.StepDetailFragment;
+import com.mzdhr.bakingapp.StepsActivity;
 import com.mzdhr.bakingapp.R;
 import com.mzdhr.bakingapp.model.Step;
 
@@ -30,7 +30,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     private Context mContext;
     final private ListItemClickListener mOnClickListener;
     private ArrayList<Step> mSteps;
-    private final ItemListActivity mParentActivity;
+    private final StepsActivity mParentActivity;
     private final boolean mTwoPane;
 
     public interface ListItemClickListener{
@@ -47,7 +47,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 //        mOnClickListener = null;
 //    }
 
-    public StepAdapter(ItemListActivity parent, ArrayList<Step> steps, boolean twoPane){
+    public StepAdapter(StepsActivity parent, ArrayList<Step> steps, boolean twoPane){
         mSteps = steps;
         mParentActivity = parent;
         mOnClickListener = parent;
@@ -94,16 +94,16 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
             if (mTwoPane) {
                 Bundle arguments = new Bundle();
-                arguments.putString(ItemDetailFragment.ARG_ITEM_ID, mSteps.get(getAdapterPosition()).getId());
-                ItemDetailFragment fragment = new ItemDetailFragment();
+                arguments.putString(StepDetailFragment.ARG_ITEM_ID, mSteps.get(getAdapterPosition()).getId());
+                StepDetailFragment fragment = new StepDetailFragment();
                 fragment.setArguments(arguments);
                 mParentActivity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.item_detail_container, fragment)
                         .commit();
             } else {
                 Context context = v.getContext();
-                Intent intent = new Intent(context, ItemDetailActivity.class);
-                intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, mSteps.get(getAdapterPosition()).getId());
+                Intent intent = new Intent(context, StepDetailActivity.class);
+                intent.putExtra(StepDetailFragment.ARG_ITEM_ID, mSteps.get(getAdapterPosition()).getId());
 
                 context.startActivity(intent);
             }
