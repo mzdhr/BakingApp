@@ -4,23 +4,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import android.support.v7.app.ActionBar;
-import android.view.MenuItem;
-
 import com.mzdhr.bakingapp.adapter.StepAdapter;
 import com.mzdhr.bakingapp.dummy.DummyContent;
+import com.mzdhr.bakingapp.helper.Constant;
+import com.mzdhr.bakingapp.model.Recipe;
 
+import org.parceler.Parcels;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.support.v4.app.NavUtils.navigateUpFromSameTask;
@@ -46,7 +50,11 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
-        Log.d(TAG, "onCreate: Launched!");
+        //Recipe object = (Recipe) getIntent().getParcelableExtra(Constant.RECIPE_ARRAY);
+       // Log.d(TAG, "onCreate: " + object.getSteps().get(1).toString());
+        ArrayList<Recipe> recipe = Parcels.unwrap(getIntent().getParcelableExtra(Constant.RECIPE_ARRAY));
+        Log.d(TAG, "onCreate: " + recipe.get(0).getName());
+        Log.d(TAG, "onCreate: " + recipe.get(0).getSteps().get(1).getShortDescription());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

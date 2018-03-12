@@ -1,15 +1,17 @@
 package com.mzdhr.bakingapp.model;
 
+import org.parceler.Parcel;
+
 /**
  * Created by mohammad on 11/03/2018.
  */
-
+@Parcel
 public class Ingredient {
-    private String quantity;
-    private String measure;
-    private String ingredient;
+    String quantity;
+    String measure;
+    String ingredient;
 
-    private Ingredient() {
+    public Ingredient() {
     }
 
     public String getQuantity() {

@@ -1,17 +1,19 @@
 package com.mzdhr.bakingapp.model;
 
+import org.parceler.Parcel;
+
 /**
  * Created by mohammad on 11/03/2018.
  */
-
+@Parcel
 public class Step {
-    private String id;
-    private String shortDescription;
-    private String description;
-    private String videoURL;
-    private String thumbnailURL;
+    String id;
+    String shortDescription;
+    String description;
+    String videoURL;
+    String thumbnailURL;
 
-    private Step(){}
+    public Step(){}
 
     public String getId() {
         return id;

@@ -2,6 +2,7 @@ package com.mzdhr.bakingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mzdhr.bakingapp.adapter.RecipeAdapter;
+import com.mzdhr.bakingapp.helper.Constant;
 import com.mzdhr.bakingapp.model.Ingredient;
 import com.mzdhr.bakingapp.model.Recipe;
 import com.mzdhr.bakingapp.model.Step;
@@ -25,6 +27,7 @@ import com.mzdhr.bakingapp.model.Step;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -174,8 +177,13 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
+        // Testing Parceler Lib
         Intent intent = new Intent(MainActivity.this, StepsActivity.class);
-        //mRecipes.get(clickedItemIndex).getSteps()
+        Parcelable recipeParcelable = Parcels.wrap(mRecipes);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constant.RECIPE_ARRAY, recipeParcelable);
+        intent.putExtras(bundle);
+        //intent.putExtra(Constant.RECIPE_ARRAY, mRecipes.get(clickedItemIndex));
         startActivity(intent);
     }
 }

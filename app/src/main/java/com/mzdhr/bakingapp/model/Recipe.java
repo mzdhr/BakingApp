@@ -1,5 +1,7 @@
 package com.mzdhr.bakingapp.model;
 
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 
 /**
@@ -9,15 +11,17 @@ import java.util.ArrayList;
  * the class must include a default constructor, even if it is private
  */
 
+@Parcel
 public class Recipe {
-    private String id;
-    private String name;
-    private ArrayList<Ingredient> ingredients;
-    private ArrayList<Step> steps;
-    private Integer servings;
-    private String image;
+    String id;
+    String name;
+    ArrayList<Ingredient> ingredients;
+    ArrayList<Step> steps;
+    Integer servings;
+    String image;
 
-    private Recipe() {
+    public Recipe(){
+
     }
 
 
