@@ -45,6 +45,7 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
      * device.
      */
     private boolean mTwoPane;
+    private static ArrayList<Recipe> mRecipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +53,7 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
         setContentView(R.layout.activity_item_list);
         //Recipe object = (Recipe) getIntent().getParcelableExtra(Constant.RECIPE_ARRAY);
        // Log.d(TAG, "onCreate: " + object.getSteps().get(1).toString());
-        ArrayList<Recipe> recipe = Parcels.unwrap(getIntent().getParcelableExtra(Constant.RECIPE_ARRAY));
-        Log.d(TAG, "onCreate: " + recipe.get(0).getName());
-        Log.d(TAG, "onCreate: " + recipe.get(0).getSteps().get(1).getShortDescription());
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -85,6 +84,15 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
         View recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // FIXME: 14/03/2018 when user press back icon, app crash nullPointExp
+        mRecipe = Parcels.unwrap(getIntent().getParcelableExtra(Constant.RECIPE_ARRAY));
+        Log.d(TAG, "onCreate: " + mRecipe.get(0).getName());
+        Log.d(TAG, "onCreate: " + mRecipe.get(0).getSteps().get(1).getShortDescription());
     }
 
     @Override

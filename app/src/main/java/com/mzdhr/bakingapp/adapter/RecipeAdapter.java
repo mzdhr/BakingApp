@@ -34,6 +34,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public RecipeAdapter(ArrayList<Recipe> recipes, ListItemClickListener listener){
         mRecipes = recipes;
         mOnClickListener = listener;
+        mContext = (Context) listener;
     }
     public RecipeAdapter(ArrayList<Recipe> recipes, Context context, ListItemClickListener listener){
         mRecipes = recipes;
@@ -72,7 +73,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         void bind(int position) {
             mRecipeName.setText(mRecipes.get(position).getName());
-            mRecipeServings.setText(mRecipes.get(position).getServings().toString());
+            mRecipeServings.setText(mContext.getString(R.string.text_servings) + mRecipes.get(position).getServings().toString());
         }
 
         @Override
