@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/player_view"
@@ -15,11 +16,15 @@
     <TextView
         android:id="@+id/item_detail"
         android:layout_below="@id/player_view"
-        style="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:textIsSelectable="true"
-        tools:context="com.mzdhr.bakingapp.StepDetailFragment"/>
+        tools:context="com.mzdhr.bakingapp.StepDetailFragment"
+        android:background="@color/colorSubLayout"
+        android:textColor="@color/colorTextLayout"
+        android:fontFamily="casual"
+        android:textSize="16sp"
+        />
+
 
 </RelativeLayout>

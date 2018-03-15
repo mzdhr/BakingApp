@@ -8,6 +8,7 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="casual"
         android:paddingBottom="16dp"
         android:paddingEnd="8dp"
         android:paddingStart="16dp"
@@ -15,14 +16,13 @@
         android:textAppearance="?attr/textAppearanceListItem"
         android:textColor="@color/colorTextLayout"
         android:textSize="16sp"
-        android:fontFamily="casual"
         />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#A0773E"
-        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:background="#A0773E"
         />
 </LinearLayout>
