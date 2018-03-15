@@ -50,7 +50,7 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_list);
+        setContentView(R.layout.activity_step_list);
         //Recipe object = (Recipe) getIntent().getParcelableExtra(Constant.RECIPE_ARRAY);
        // Log.d(TAG, "onCreate: " + object.getSteps().get(1).toString());
 
@@ -163,7 +163,7 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_list_content, parent, false);
+                    .inflate(R.layout.item_list_step, parent, false);
             return new ViewHolder(view);
         }
 

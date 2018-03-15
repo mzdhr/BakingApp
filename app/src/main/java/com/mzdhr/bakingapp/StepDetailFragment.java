@@ -98,7 +98,7 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.item_detail, container, false);
+        View rootView = inflater.inflate(R.layout.item_step_detail, container, false);
 
         // Preparing View Player
         mPlayerView = rootView.findViewById(R.id.player_view);

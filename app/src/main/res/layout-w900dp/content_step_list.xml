@@ -27,7 +27,7 @@
                                             android:layout_marginRight="16dp"
                                             app:layoutManager="LinearLayoutManager"
                                             tools:context="com.mzdhr.bakingapp.StepsActivity"
-                                            tools:listitem="@layout/item_list_content"/>
+                                            tools:listitem="@layout/item_list_step"/>
 
     <FrameLayout
         android:id="@+id/item_detail_container"
