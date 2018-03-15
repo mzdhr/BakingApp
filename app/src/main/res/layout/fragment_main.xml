@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.mzdhr.bakingapp.MainActivityFragment"
     tools:showIn="@layout/activity_main"
-    android:background="@color/colorBackground"
+    android:background="@color/colorSubLayout"
     >
 
     <android.support.v7.widget.RecyclerView

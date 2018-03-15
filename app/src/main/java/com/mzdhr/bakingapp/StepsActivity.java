@@ -169,7 +169,7 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
+        //    holder.mIdView.setText(mValues.get(position).id);
             holder.mContentView.setText(mValues.get(position).content);
 
             holder.itemView.setTag(mValues.get(position));
@@ -182,12 +182,12 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mIdView;
+           // final TextView mIdView;
             final TextView mContentView;
 
             ViewHolder(View view) {
                 super(view);
-                mIdView = (TextView) view.findViewById(R.id.id_text);
+                //mIdView = (TextView) view.findViewById(R.id.id_text);
                 mContentView = (TextView) view.findViewById(R.id.content);
             }
         }

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    android:background="@color/colorAccent"
+    android:background="@color/colorHeadLayout"
     android:elevation="2dp"
     android:padding="8dp"
     >
@@ -31,7 +31,6 @@
         android:textColor="#ececec"
         android:textSize="24sp"
         android:textStyle="bold"
-
         />
 
     <TextView
@@ -45,7 +44,7 @@
         android:paddingStart="8dp"
         android:text="@string/text_servings"
         android:textColor="#ececec"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textStyle="bold"
 
         />

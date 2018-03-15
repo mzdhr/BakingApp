@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:orientation="horizontal">
-
-    <TextView
-        android:id="@+id/id_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem"/>
+              android:orientation="vertical">
 
     <TextView
         android:id="@+id/content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem"/>
+        android:paddingBottom="16dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="@color/colorTextLayout"
+        android:textSize="16sp"
+        android:fontFamily="casual"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#A0773E"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        />
 </LinearLayout>
