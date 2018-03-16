@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -68,11 +69,16 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
     /**
      * The dummy content this fragment is presenting.
      */
+
     // Views
     private DummyContent.DummyItem mItem;
+    private MediaSessionCompat mMediaSession;
     private PlayerView mPlayerView;
     private TextView mDetailTextView;
-    private MediaSessionCompat mMediaSession;
+    private ImageView mNoAvailableImageView;
+    private TextView mNextButton;
+    private TextView mBackButton;
+    private TextView mCurrentTextView;
 
 
     /**
@@ -119,13 +125,24 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
 //        savedInstanceState.getString()
         mVideoUrl = getArguments().getString(Constant.STEP_VIDEO_URL_KEY);
         mDescription = getArguments().getString(Constant.STEP_DESCRIPTION_KEY);
+
         Log.d(TAG, "onCreate: mVideoURL: " + mVideoUrl);
         Log.d(TAG, "onCreate: mDescription: " + mDescription);
 
         // Find Views
         mPlayerView = rootView.findViewById(R.id.player_view);
         mDetailTextView = rootView.findViewById(R.id.item_detail);
+        mNoAvailableImageView = rootView.findViewById(R.id.no_video_available_ImageView);
+        mNextButton = (TextView) rootView.findViewById(R.id.next_button_textView);
+        mBackButton = (TextView) rootView.findViewById(R.id.previous_button_textView);
+        mCurrentTextView = (TextView) rootView.findViewById(R.id.current_textView);
 
+        mNextButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         // Preparing Media Session
         mMediaSession = new MediaSessionCompat(getActivity(), TAG);
@@ -148,9 +165,10 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
 
         if (mVideoUrl.equals("")) {
             mPlayerView.setVisibility(View.GONE);
+            mNoAvailableImageView.setVisibility(View.VISIBLE);
         } else {
-
-
+            mPlayerView.setVisibility(View.VISIBLE);
+            mNoAvailableImageView.setVisibility(View.GONE);
             // Preparing the Player
             if (mPlayer == null) {
                 TrackSelector trackSelector = new DefaultTrackSelector();
@@ -209,11 +227,13 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // Stop Playing
-        mPlayer.stop();
-        mPlayer.release();
-        mPlayer = null;
-        mMediaSession.setActive(false);
+        if (!mVideoUrl.equals("")) {
+            // Stop Playing
+            mPlayer.stop();
+            mPlayer.release();
+            mPlayer = null;
+            mMediaSession.setActive(false);
+        }
     }
 
 

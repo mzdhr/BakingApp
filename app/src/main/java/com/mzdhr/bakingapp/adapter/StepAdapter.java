@@ -94,9 +94,13 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
                 arguments.putString(StepDetailFragment.ARG_ITEM_ID, mSteps.get(getAdapterPosition()).getId());
                 StepDetailFragment fragment = new StepDetailFragment();
                 fragment.setArguments(arguments);
-                mParentActivity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.item_detail_container, fragment)
-                        .commit();
+                mParentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment).commit();
+
+                // Passing data to Tablet fragment details
+                arguments.putString(Constant.STEP_VIDEO_URL_KEY, mRecipe.getSteps().get(getAdapterPosition()).getVideoURL());
+                arguments.putString(Constant.STEP_DESCRIPTION_KEY, mRecipe.getSteps().get(getAdapterPosition()).getDescription());
+                //arguments.putString(Constant.STEP_THUMBNAIL_URL_KEY, mRecipe.getSteps().get(getAdapterPosition()).getThumbnailURL());
+
             } else {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, StepDetailActivity.class);
