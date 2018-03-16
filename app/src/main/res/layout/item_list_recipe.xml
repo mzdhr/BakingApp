@@ -15,6 +15,7 @@
         android:layout_height="80dp"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_noun_1304710_cc"
+        android:visibility="gone"
         />
 
     <TextView
@@ -37,6 +38,7 @@
         android:id="@+id/recipe_servings_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_below="@id/recipe_name_textView"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@id/imageIcon"
@@ -44,8 +46,7 @@
         android:paddingStart="8dp"
         android:text="@string/text_servings"
         android:textColor="#ececec"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textStyle="bold"
-
         />
 </RelativeLayout>

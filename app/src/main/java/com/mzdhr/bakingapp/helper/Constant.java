@@ -6,5 +6,5 @@ package com.mzdhr.bakingapp.helper;
 
 public class Constant {
 
-    public static final String RECIPE_ARRAY = "recipe_array";
+    public static final String RECIPE_ARRAY_KEY = "recipe_array";
 }

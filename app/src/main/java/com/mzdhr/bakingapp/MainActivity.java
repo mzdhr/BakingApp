@@ -35,17 +35,17 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements RecipeAdapter.ListItemClickListener{
+public class MainActivity extends AppCompatActivity implements RecipeAdapter.ListItemClickListener {
+    // Object
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static ArrayList<Recipe> mRecipes;
+    private RecipeAdapter mRecipeAdapter;
+
     // Views
     @BindView(R.id.recipeRecyclerView)
     RecyclerView mRecipeRecyclerView;
     @BindString(R.string.app_name)
     String mAppName;
-
-    // Object
-    public static ArrayList<Recipe> mRecipes;
-    private RecipeAdapter mRecipeAdapter;
 
 
     @Override
@@ -69,14 +69,12 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
         setAdapter();
     }
 
-    private void setAdapter(){
+    private void setAdapter() {
         mRecipeAdapter = new RecipeAdapter(mRecipes, this);
         mRecipeRecyclerView.setAdapter(mRecipeAdapter);
     }
 
     private void requestByVolley() {
-
-
         String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
         // Create RequestQueue object
@@ -179,11 +177,11 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     public void onListItemClick(int clickedItemIndex) {
         // Testing Parceler Lib
         Intent intent = new Intent(MainActivity.this, StepsActivity.class);
-        Parcelable recipeParcelable = Parcels.wrap(mRecipes);
+        Parcelable recipeParcelable = Parcels.wrap(mRecipes.get(clickedItemIndex));
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constant.RECIPE_ARRAY, recipeParcelable);
+        bundle.putParcelable(Constant.RECIPE_ARRAY_KEY, recipeParcelable);
         intent.putExtras(bundle);
-        //intent.putExtra(Constant.RECIPE_ARRAY, mRecipes.get(clickedItemIndex));
+        //intent.putExtra(Constant.RECIPE_ARRAY_KEY, mRecipes.get(clickedItemIndex));
         startActivity(intent);
     }
 }
