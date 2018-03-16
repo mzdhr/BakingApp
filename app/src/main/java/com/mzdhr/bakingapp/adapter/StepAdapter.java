@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import com.mzdhr.bakingapp.StepDetailActivity;
 import com.mzdhr.bakingapp.StepDetailFragment;
 import com.mzdhr.bakingapp.StepsActivity;
 import com.mzdhr.bakingapp.R;
+import com.mzdhr.bakingapp.helper.Constant;
+import com.mzdhr.bakingapp.model.Recipe;
 import com.mzdhr.bakingapp.model.Step;
 
 import java.util.ArrayList;
@@ -29,6 +32,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     private static final String TAG = StepAdapter.class.getSimpleName();
     private Context mContext;
     final private ListItemClickListener mOnClickListener;
+    private Recipe mRecipe;
     private ArrayList<Step> mSteps;
     private final StepsActivity mParentActivity;
     private final boolean mTwoPane;
@@ -37,18 +41,11 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         void onListItemClick(int clickedItemIndex);
     }
 
-//    public StepAdapter(ArrayList<Step> steps, ListItemClickListener listener){
-//        mSteps = steps;
-//        mOnClickListener = listener;
-//    }
-//
-//    public StepAdapter(ArrayList<Step> steps){
-//        mSteps = steps;
-//        mOnClickListener = null;
-//    }
 
-    public StepAdapter(StepsActivity parent, ArrayList<Step> steps, boolean twoPane){
-        mSteps = steps;
+
+    public StepAdapter(StepsActivity parent, Recipe recipe, boolean twoPane){
+        mRecipe = recipe;
+        mSteps = mRecipe.getSteps();
         mParentActivity = parent;
         mOnClickListener = parent;
         mTwoPane = twoPane;
@@ -103,8 +100,11 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
             } else {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, StepDetailActivity.class);
-                intent.putExtra(StepDetailFragment.ARG_ITEM_ID, mSteps.get(getAdapterPosition()).getId());
-
+                //intent.putExtra(StepDetailFragment.ARG_ITEM_ID, mRecipe.get(getAdapterPosition()).getId());
+                // FIXME: 16/03/2018 if getVidewURL == "" then use getThumnail!!
+                intent.putExtra(Constant.STEP_VIDEO_URL_KEY, mRecipe.getSteps().get(getAdapterPosition()).getVideoURL());
+                intent.putExtra(Constant.STEP_DESCRIPTION_KEY, mRecipe.getSteps().get(getAdapterPosition()).getDescription());
+                Log.d(TAG, "onClick: getAdapterPosition: " + getAdapterPosition());
                 context.startActivity(intent);
             }
         }

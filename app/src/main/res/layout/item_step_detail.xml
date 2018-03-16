@@ -13,6 +13,15 @@
         app:resize_mode="fixed_height"
         />
 
+    <ImageView
+        android:id="@+id/no_video_available_ImageView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:src="@drawable/notavailable"
+        android:scaleType="centerInside"
+        android:background="#0f0b0e"
+        />
+
     <TextView
         android:id="@+id/item_detail"
         android:layout_below="@id/player_view"
@@ -26,5 +35,38 @@
         android:textSize="16sp"
         />
 
+    <RelativeLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorHeadLayout"
+        >
 
+        <TextView
+            android:id="@+id/next_button_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:layout_alignParentRight="true"
+            style="@style/ButtonStyle"
+            />
+        <TextView
+            android:id="@+id/current_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0/10"
+            android:layout_centerHorizontal="true"
+            style="@style/ButtonStyle"
+            />
+        <TextView
+            android:id="@+id/previous_button_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_alignParentStart="true"
+            style="@style/ButtonStyle"
+            />
+
+    </RelativeLayout>
 </RelativeLayout>

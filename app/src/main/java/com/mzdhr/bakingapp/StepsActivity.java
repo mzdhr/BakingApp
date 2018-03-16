@@ -116,6 +116,12 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
         mIngredientTextView.setText(result.toString());
     }
 
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        StepAdapter stepAdapter = new StepAdapter(this, mRecipe, mTwoPane);
+        recyclerView.setAdapter(stepAdapter);
+        mStepsRecyclerView.setFocusable(false);
+    }
+
     // FIXME: 16/03/2018 No need!
     // Save data into saveInstanceState. So when user click back icon button.
     @Override
@@ -144,11 +150,6 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        StepAdapter stepAdapter = new StepAdapter(this, mRecipe.getSteps(), mTwoPane);
-        recyclerView.setAdapter(stepAdapter);
-        mStepsRecyclerView.setFocusable(false);
-    }
 
     @Override
     public void onListItemClick(int clickedItemIndex) {

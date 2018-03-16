@@ -2,14 +2,13 @@ package com.mzdhr.bakingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
+
+import com.mzdhr.bakingapp.helper.Constant;
 
 /**
  * An activity representing a single Item detail screen. This
@@ -18,7 +17,29 @@ import android.view.MenuItem;
  * in a {@link StepsActivity}.
  */
 public class StepDetailActivity extends AppCompatActivity {
+
+
+    public interface ObserverFromStepDetailActivity {
+        void getVideoURLandDescription(String videoURL, String description);
+    }
+
+    private ObserverFromStepDetailActivity mObserverFromStepDetailActivity = null;
+
+
+    public void setObserver(final ObserverFromStepDetailActivity listener) {
+        mObserverFromStepDetailActivity = listener;
+    }
+
+    public void removeObserver() {
+        mObserverFromStepDetailActivity = null;
+    }
+
+
+    // Objects
     private static String TAG = StepDetailActivity.class.getSimpleName();
+    private String mVideoUrl = "";
+    private String mDescription = "";
+    private String mThumbnailUrl = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +47,26 @@ public class StepDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_step_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
-        Log.d(TAG, "onCreate: Launched!");
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+        if (getIntent().hasExtra(Constant.STEP_VIDEO_URL_KEY)) {
+            mVideoUrl = getIntent().getStringExtra(Constant.STEP_VIDEO_URL_KEY);
+            mDescription = getIntent().getStringExtra(Constant.STEP_DESCRIPTION_KEY);
+            Log.d(TAG, "onCreate: mVideoURL: " + mVideoUrl);
+            Log.d(TAG, "onCreate: mDescription: " + mDescription);
+            // TODO: 16/03/2018 setObserver here!
+//            if (mObserverFromStepDetailActivity != null) {
+//                mObserverFromStepDetailActivity.getVideoURLandDescription(mVideoUrl, mDescription);
+//            }
+
+
+//            Bundle bundle = new Bundle();
+//            bundle.putString(Constant.STEP_VIDEO_URL_KEY, mVideoUrl);
+//            bundle.putString(Constant.STEP_DESCRIPTION_KEY, mDescription);
+//            // set Fragment class Arguments
+//            StepDetailFragment stepDetailFragment = new StepDetailFragment();
+//            stepDetailFragment.setArguments(bundle);
+
+        }
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -55,13 +87,15 @@ public class StepDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(StepDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(StepDetailFragment.ARG_ITEM_ID));
+            arguments.putString(Constant.STEP_VIDEO_URL_KEY, mVideoUrl);
+            arguments.putString(Constant.STEP_DESCRIPTION_KEY, mDescription);
+            arguments.putString(Constant.STEP_THUMBNAIL_URL_KEY, mThumbnailUrl);
+
+
+            arguments.putString(StepDetailFragment.ARG_ITEM_ID, getIntent().getStringExtra(StepDetailFragment.ARG_ITEM_ID));
             StepDetailFragment fragment = new StepDetailFragment();
             fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.item_detail_container, fragment)
-                    .commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.item_detail_container, fragment).commit();
         }
     }
 
@@ -80,4 +114,6 @@ public class StepDetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

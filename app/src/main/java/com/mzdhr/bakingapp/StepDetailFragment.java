@@ -32,25 +32,30 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.mzdhr.bakingapp.dummy.DummyContent;
+import com.mzdhr.bakingapp.helper.Constant;
 
 /**
  * A fragment representing a single Item detail screen.
  * This fragment is either contained in a {@link StepsActivity}
  * in two-pane mode (on tablets) or a {@link StepDetailActivity}
  * on handsets.
- *
- *
- *
+ * <p>
+ * <p>
+ * <p>
  * I use ExoPlayer Lib
  * https://google.github.io/ExoPlayer/guide.html
  */
 
-public class StepDetailFragment extends Fragment implements OnClickListener, ExoPlayer.EventListener{
-   // @BindView(R.id.player_view) PlayerView mPlayerView;
+public class StepDetailFragment extends Fragment implements OnClickListener, ExoPlayer.EventListener, StepDetailActivity.ObserverFromStepDetailActivity {
+
+    // Objects
+    //private StepDetailActivity.ObserverFromStepDetailActivity mObserver;
+    StepDetailActivity mStepDetailActivity;
+
+    String mVideoUrl = "";
+    String mDescription = "";
+
     private SimpleExoPlayer mPlayer;
-
-    public String mVideoUrl = "";
-
 
     private static String TAG = StepDetailFragment.class.getSimpleName();
 
@@ -63,9 +68,12 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
     /**
      * The dummy content this fragment is presenting.
      */
+    // Views
     private DummyContent.DummyItem mItem;
     private PlayerView mPlayerView;
+    private TextView mDetailTextView;
     private MediaSessionCompat mMediaSession;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -77,9 +85,9 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: Launched!");
-        mVideoUrl = MainActivity.mRecipes.get(0).getSteps().get(0).getVideoURL();
-        Log.d(TAG, "onCreate: mVideoUrl: " + mVideoUrl);
+//        Log.d(TAG, "onCreate: Launched!");
+//        mVideoUrl = MainActivity.mRecipes.get(0).getSteps().get(0).getVideoURL();
+//        Log.d(TAG, "onCreate: mVideoUrl: " + mVideoUrl);
 
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
@@ -97,17 +105,33 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
     }
 
     @Override
+    public void onAttachFragment(Fragment childFragment) {
+        super.onAttachFragment(childFragment);
+        mStepDetailActivity.setObserver(this);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.item_step_detail, container, false);
 
-        // Preparing View Player
+        Bundle arguments = getArguments();
+//        savedInstanceState.getString()
+        mVideoUrl = getArguments().getString(Constant.STEP_VIDEO_URL_KEY);
+        mDescription = getArguments().getString(Constant.STEP_DESCRIPTION_KEY);
+        Log.d(TAG, "onCreate: mVideoURL: " + mVideoUrl);
+        Log.d(TAG, "onCreate: mDescription: " + mDescription);
+
+        // Find Views
         mPlayerView = rootView.findViewById(R.id.player_view);
+        mDetailTextView = rootView.findViewById(R.id.item_detail);
+
 
         // Preparing Media Session
         mMediaSession = new MediaSessionCompat(getActivity(), TAG);
         mMediaSession.setFlags(
                 MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
-                MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+                        MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         mMediaSession.setMediaButtonReceiver(null);
         // Preparing PlaybackState for media buttons
         PlaybackStateCompat.Builder stateBuilder = new PlaybackStateCompat.Builder()
@@ -122,50 +146,61 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
         mMediaSession.setActive(true);
 
 
-        // Preparing the Player
-        if (mPlayer == null) {
-            TrackSelector trackSelector = new DefaultTrackSelector();
-            LoadControl loadControl = new DefaultLoadControl();
-            mPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
-            mPlayerView.setPlayer(mPlayer);
+        if (mVideoUrl.equals("")) {
+            mPlayerView.setVisibility(View.GONE);
+        } else {
 
-            mPlayer.addListener(this);
 
-            // Preparing the MediaSource
-            String userAgent = Util.getUserAgent(getActivity(), "BakingApp");
-            DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(getActivity(), userAgent);
-            DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+            // Preparing the Player
+            if (mPlayer == null) {
+                TrackSelector trackSelector = new DefaultTrackSelector();
+                LoadControl loadControl = new DefaultLoadControl();
+                mPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
+                mPlayerView.setPlayer(mPlayer);
 
-            MediaSource mediaSource = new ExtractorMediaSource(
-                    Uri.parse(mVideoUrl),
-                    dataSourceFactory,
-                    extractorsFactory,
-                    null,
-                    null);
+                mPlayer.addListener(this);
 
-            mPlayer.prepare(mediaSource);
-            mPlayer.setPlayWhenReady(true);
+                // Preparing the MediaSource
+                String userAgent = Util.getUserAgent(getActivity(), "BakingApp");
+                DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(getActivity(), userAgent);
+                DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+
+
+                MediaSource mediaSource = new ExtractorMediaSource(
+                        Uri.parse(mVideoUrl),
+                        dataSourceFactory,
+                        extractorsFactory,
+                        null,
+                        null);
+
+                mPlayer.prepare(mediaSource);
+                mPlayer.setPlayWhenReady(true);
+            }
         }
 
+        // Setting Details in mDetailTextView
 
-
-        String value = MainActivity.mRecipes.get(0).getSteps().get(1).getDescription();
-        ((TextView) rootView.findViewById(R.id.item_detail)).setText(value);
+        //String value = MainActivity.mRecipes.get(0).getSteps().get(1).getDescription();
+        ((TextView) rootView.findViewById(R.id.item_detail)).setText(mDescription);
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // Resume Playing
-        mPlayer.setPlayWhenReady(true);
+        if (!mVideoUrl.equals("")) {
+            // Resume Playing
+            mPlayer.setPlayWhenReady(true);
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        // Pause Playing
-        mPlayer.setPlayWhenReady(false);
+        if (!mVideoUrl.equals("")) {
+            // Pause Playing
+            mPlayer.setPlayWhenReady(false);
+        }
     }
 
     /**
@@ -254,10 +289,15 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
     }
 
 
-
     @Override
     public void onClick(View v) {
+        //     Toast.makeText(getActivity(), "You Clicked: " v., Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void getVideoURLandDescription(String videoURL, String description) {
+        mVideoUrl = videoURL;
+        mDescription = description;
     }
 
 }
