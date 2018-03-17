@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorSubLayout"
+                android:padding="@dimen/widget_margin">
+
+    <LinearLayout
+        android:id="@+id/ingredient_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/title_appwidget_text_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorHeadLayout"
+            android:padding="8dp"
+            android:paddingStart="16dp"
+            android:text="@string/app_name"
+            android:textColor="#ececec"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:fontFamily="casual"
+            />
+
+        <TextView
+
+            android:id="@+id/ingredient_appwidget_text_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorSubLayout"
+            android:padding="8dp"
+            android:paddingStart="16dp"
+            android:text="@string/add_widget_help"
+            android:textColor="@color/colorTextLayout"
+            android:textSize="14sp"
+            android:fontFamily="casual"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

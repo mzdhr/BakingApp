@@ -1,5 +1,7 @@
 package com.mzdhr.bakingapp;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -9,7 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mzdhr.bakingapp.adapter.StepAdapter;
 import com.mzdhr.bakingapp.helper.Constant;
@@ -40,6 +45,8 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
     TextView mIngredientTextView;
     @BindView(R.id.item_list)
     RecyclerView mStepsRecyclerView;
+    @BindView(R.id.add_widget_button_imageView)
+    ImageView mAddWidgetButton;
 
 
     /**
@@ -92,10 +99,46 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
             mTwoPane = true;
         }
 
+        mAddWidgetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addWidget();
+            }
+        });
+
         // Populate Ingredient Values
         setupIngredientTextView();
         // Populate Steps Values
         setupRecyclerView(mStepsRecyclerView);
+    }
+
+    private void addWidget() {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < mRecipe.getIngredients().size(); i++) {
+            result.append("- ");
+            result.append(mRecipe.getIngredients().get(i).getIngredient());
+            result.append(" (");
+            result.append(mRecipe.getIngredients().get(i).getQuantity());
+            result.append(" ");
+            result.append(mRecipe.getIngredients().get(i).getMeasure());
+            result.append(").");
+            if (i != (mRecipe.getIngredients().size() - 1)) {
+                result.append("\n");
+            }
+        }
+
+        // Populate / Updating Widget
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, NewAppWidgetProvider.class));
+        if (appWidgetIds.length == 0) {
+            Toast.makeText(this, "Please make a home screen widget first!", Toast.LENGTH_SHORT).show();
+        } else {
+            for (int i = 0; i < appWidgetIds.length; i++) {
+                NewAppWidgetProvider.updateAppWidget(this, appWidgetManager, appWidgetIds[i], mRecipe.getName() + " - Ingredients", result.toString());
+                Toast.makeText(this, "Widget Added!", Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
     private void setupIngredientTextView() {
@@ -112,7 +155,7 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
                 result.append("\n");
             }
         }
-
+        // Populate
         mIngredientTextView.setText(result.toString());
     }
 

@@ -39,6 +39,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mzdhr.bakingapp.StepsActivity"/>
         </activity>
+
+        <receiver android:name=".NewAppWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/new_app_widget_provider_info"/>
+        </receiver>
     </application>
 
 </manifest>
