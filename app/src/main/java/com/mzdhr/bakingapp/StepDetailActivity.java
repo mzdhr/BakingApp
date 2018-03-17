@@ -9,6 +9,11 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.mzdhr.bakingapp.helper.Constant;
+import com.mzdhr.bakingapp.model.Step;
+
+import org.parceler.Parcels;
+
+import java.util.ArrayList;
 
 /**
  * An activity representing a single Item detail screen. This
@@ -16,7 +21,7 @@ import com.mzdhr.bakingapp.helper.Constant;
  * item details are presented side-by-side with a list of items
  * in a {@link StepsActivity}.
  */
-public class StepDetailActivity extends AppCompatActivity {
+public class StepDetailActivity extends AppCompatActivity{
 
 
     public interface ObserverFromStepDetailActivity {
@@ -40,6 +45,8 @@ public class StepDetailActivity extends AppCompatActivity {
     private String mVideoUrl = "";
     private String mDescription = "";
     private String mThumbnailUrl = "";
+    ArrayList<Step> mSteps = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +58,8 @@ public class StepDetailActivity extends AppCompatActivity {
         if (getIntent().hasExtra(Constant.STEP_VIDEO_URL_KEY)) {
             mVideoUrl = getIntent().getStringExtra(Constant.STEP_VIDEO_URL_KEY);
             mDescription = getIntent().getStringExtra(Constant.STEP_DESCRIPTION_KEY);
+            mSteps = Parcels.unwrap(getIntent().getParcelableExtra(Constant.STEP_LIST_KEY));
+
             Log.d(TAG, "onCreate: mVideoURL: " + mVideoUrl);
             Log.d(TAG, "onCreate: mDescription: " + mDescription);
             // TODO: 16/03/2018 setObserver here!
@@ -89,7 +98,7 @@ public class StepDetailActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putString(Constant.STEP_VIDEO_URL_KEY, mVideoUrl);
             arguments.putString(Constant.STEP_DESCRIPTION_KEY, mDescription);
-            arguments.putString(Constant.STEP_THUMBNAIL_URL_KEY, mThumbnailUrl);
+            arguments.putParcelable(Constant.STEP_LIST_KEY, Parcels.wrap(mSteps));
 
 
             arguments.putString(StepDetailFragment.ARG_ITEM_ID, getIntent().getStringExtra(StepDetailFragment.ARG_ITEM_ID));

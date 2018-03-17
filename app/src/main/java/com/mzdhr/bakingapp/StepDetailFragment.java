@@ -1,12 +1,12 @@
 package com.mzdhr.bakingapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +34,9 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.mzdhr.bakingapp.dummy.DummyContent;
 import com.mzdhr.bakingapp.helper.Constant;
+import com.mzdhr.bakingapp.model.Step;
+
+import java.util.ArrayList;
 
 /**
  * A fragment representing a single Item detail screen.
@@ -47,9 +50,11 @@ import com.mzdhr.bakingapp.helper.Constant;
  * https://google.github.io/ExoPlayer/guide.html
  */
 
-public class StepDetailFragment extends Fragment implements OnClickListener, ExoPlayer.EventListener, StepDetailActivity.ObserverFromStepDetailActivity {
+public class StepDetailFragment extends Fragment implements OnClickListener, ExoPlayer.EventListener {
 
     // Objects
+    ArrayList<Step> mSteps = new ArrayList<>();
+
     //private StepDetailActivity.ObserverFromStepDetailActivity mObserver;
     StepDetailActivity mStepDetailActivity;
 
@@ -111,23 +116,25 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
     }
 
     @Override
-    public void onAttachFragment(Fragment childFragment) {
-        super.onAttachFragment(childFragment);
-        mStepDetailActivity.setObserver(this);
-
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.item_step_detail, container, false);
 
-        Bundle arguments = getArguments();
 //        savedInstanceState.getString()
         mVideoUrl = getArguments().getString(Constant.STEP_VIDEO_URL_KEY);
         mDescription = getArguments().getString(Constant.STEP_DESCRIPTION_KEY);
-
-        Log.d(TAG, "onCreate: mVideoURL: " + mVideoUrl);
-        Log.d(TAG, "onCreate: mDescription: " + mDescription);
+//        mSteps = Parcels.unwrap(getArguments().getParcelable(Constant.STEP_LIST_KEY));
+//
+//        for (int i = 0; i < mSteps.size(); i++) {
+//            Log.d(TAG, "onCreateView: " + mSteps.get(i).getDescription());
+//            Log.d(TAG, "onCreateView: " + mSteps.get(i).getVideoURL());
+//        }
+//        Log.d(TAG, "onCreate: mVideoURL: " + mVideoUrl);
+//        Log.d(TAG, "onCreate: mDescription: " + mDescription);
 
         // Find Views
         mPlayerView = rootView.findViewById(R.id.player_view);
@@ -314,10 +321,5 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
         //     Toast.makeText(getActivity(), "You Clicked: " v., Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void getVideoURLandDescription(String videoURL, String description) {
-        mVideoUrl = videoURL;
-        mDescription = description;
-    }
 
 }

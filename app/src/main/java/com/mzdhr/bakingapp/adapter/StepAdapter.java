@@ -19,6 +19,8 @@ import com.mzdhr.bakingapp.helper.Constant;
 import com.mzdhr.bakingapp.model.Recipe;
 import com.mzdhr.bakingapp.model.Step;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -99,6 +101,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
                 // Passing data to Tablet fragment details
                 arguments.putString(Constant.STEP_VIDEO_URL_KEY, mRecipe.getSteps().get(getAdapterPosition()).getVideoURL());
                 arguments.putString(Constant.STEP_DESCRIPTION_KEY, mRecipe.getSteps().get(getAdapterPosition()).getDescription());
+                arguments.putParcelable(Constant.STEP_LIST_KEY, Parcels.wrap(mRecipe.getSteps()));
                 //arguments.putString(Constant.STEP_THUMBNAIL_URL_KEY, mRecipe.getSteps().get(getAdapterPosition()).getThumbnailURL());
 
             } else {

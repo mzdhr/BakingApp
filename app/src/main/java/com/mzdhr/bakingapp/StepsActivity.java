@@ -35,7 +35,7 @@ import static android.support.v4.app.NavUtils.navigateUpFromSameTask;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class StepsActivity extends AppCompatActivity implements StepAdapter.ListItemClickListener {
+public class StepsActivity extends AppCompatActivity implements StepAdapter.ListItemClickListener{
 
     // Objects
     private static String TAG = StepsActivity.class.getSimpleName();
@@ -161,7 +161,7 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         StepAdapter stepAdapter = new StepAdapter(this, mRecipe, mTwoPane);
-        recyclerView.setAdapter(stepAdapter);
+        mStepsRecyclerView.setAdapter(stepAdapter);
         mStepsRecyclerView.setFocusable(false);
     }
 
@@ -198,6 +198,8 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
     public void onListItemClick(int clickedItemIndex) {
 
     }
+
+
 
 //    public static class SimpleItemRecyclerViewAdapter
 //            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
