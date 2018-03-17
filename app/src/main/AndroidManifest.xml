@@ -40,7 +40,7 @@
                 android:value="com.mzdhr.bakingapp.StepsActivity"/>
         </activity>
 
-        <receiver android:name=".NewAppWidgetProvider">
+        <receiver android:name=".widget.BakingAppWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>

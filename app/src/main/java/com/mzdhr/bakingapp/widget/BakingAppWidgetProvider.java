@@ -1,4 +1,4 @@
-package com.mzdhr.bakingapp;
+package com.mzdhr.bakingapp.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -7,12 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
+import com.mzdhr.bakingapp.MainActivity;
+import com.mzdhr.bakingapp.R;
+
 /**
  * Implementation of App Widget functionality.
  */
-public class NewAppWidgetProvider extends AppWidgetProvider {
+public class BakingAppWidgetProvider extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, String titleText, String bodyText) {
+    public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, String titleText, String bodyText) {
 
         if (titleText == null) {
             titleText = context.getString(R.string.add_widget_help);
@@ -24,7 +27,6 @@ public class NewAppWidgetProvider extends AppWidgetProvider {
 
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.new_app_widget_provider);
-        //views.setTextViewText(R.id.ingredient_appwidget_text_textView, "Open Baking App, and select a recipe by clicking on its Widget Icon!");
         views.setTextViewText(R.id.ingredient_appwidget_text_textView, bodyText);
         views.setTextViewText(R.id.title_appwidget_text_textView, titleText);
 

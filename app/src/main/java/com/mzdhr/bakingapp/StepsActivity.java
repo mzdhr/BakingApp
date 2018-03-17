@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.mzdhr.bakingapp.adapter.StepAdapter;
 import com.mzdhr.bakingapp.helper.Constant;
 import com.mzdhr.bakingapp.model.Recipe;
+import com.mzdhr.bakingapp.widget.BakingAppWidgetProvider;
 
 import org.parceler.Parcels;
 
@@ -129,12 +130,12 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
 
         // Populate / Updating Widget
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, NewAppWidgetProvider.class));
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, BakingAppWidgetProvider.class));
         if (appWidgetIds.length == 0) {
             Toast.makeText(this, "Please make a home screen widget first!", Toast.LENGTH_SHORT).show();
         } else {
             for (int i = 0; i < appWidgetIds.length; i++) {
-                NewAppWidgetProvider.updateAppWidget(this, appWidgetManager, appWidgetIds[i], mRecipe.getName() + " - Ingredients", result.toString());
+                BakingAppWidgetProvider.updateAppWidget(this, appWidgetManager, appWidgetIds[i], mRecipe.getName() + " - Ingredients", result.toString());
                 Toast.makeText(this, "Widget Added!", Toast.LENGTH_SHORT).show();
             }
         }
