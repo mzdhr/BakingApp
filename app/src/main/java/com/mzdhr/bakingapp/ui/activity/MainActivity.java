@@ -1,4 +1,4 @@
-package com.mzdhr.bakingapp;
+package com.mzdhr.bakingapp.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mzdhr.bakingapp.R;
 import com.mzdhr.bakingapp.adapter.RecipeAdapter;
 import com.mzdhr.bakingapp.helper.Constant;
 import com.mzdhr.bakingapp.model.Ingredient;
@@ -43,9 +44,9 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
 
     // Views
     @BindView(R.id.recipeRecyclerView)
-    RecyclerView mRecipeRecyclerView;
+    public RecyclerView mRecipeRecyclerView;
     @BindString(R.string.app_name)
-    String mAppName;
+    public String mAppName;
 
 
     @Override
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     @Override
     public void onListItemClick(int clickedItemIndex) {
         // Testing Parceler Lib
-        Intent intent = new Intent(MainActivity.this, StepsActivity.class);
+        Intent intent = new Intent(MainActivity.this, IngredientAndStepActivity.class);
         Parcelable recipeParcelable = Parcels.wrap(mRecipes.get(clickedItemIndex));
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.RECIPE_ARRAY_KEY, recipeParcelable);

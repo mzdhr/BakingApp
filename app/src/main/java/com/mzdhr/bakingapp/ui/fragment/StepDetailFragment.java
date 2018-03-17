@@ -1,4 +1,4 @@
-package com.mzdhr.bakingapp;
+package com.mzdhr.bakingapp.ui.fragment;
 
 import android.app.Activity;
 import android.content.Context;
@@ -32,15 +32,18 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.mzdhr.bakingapp.R;
 import com.mzdhr.bakingapp.dummy.DummyContent;
 import com.mzdhr.bakingapp.helper.Constant;
 import com.mzdhr.bakingapp.model.Step;
+import com.mzdhr.bakingapp.ui.activity.StepDetailActivity;
+import com.mzdhr.bakingapp.ui.activity.IngredientAndStepActivity;
 
 import java.util.ArrayList;
 
 /**
  * A fragment representing a single Item detail screen.
- * This fragment is either contained in a {@link StepsActivity}
+ * This fragment is either contained in a {@link IngredientAndStepActivity}
  * in two-pane mode (on tablets) or a {@link StepDetailActivity}
  * on handsets.
  * <p>

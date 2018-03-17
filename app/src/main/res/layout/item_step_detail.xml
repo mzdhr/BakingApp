@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        tools:context="com.mzdhr.bakingapp.StepDetailFragment"
+        tools:context="com.mzdhr.bakingapp.ui.fragment.StepDetailFragment"
         android:background="@color/colorSubLayout"
         android:textColor="@color/colorTextLayout"
         android:fontFamily="casual"

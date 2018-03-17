@@ -11,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mzdhr.bakingapp.StepDetailActivity;
-import com.mzdhr.bakingapp.StepDetailFragment;
-import com.mzdhr.bakingapp.StepsActivity;
+import com.mzdhr.bakingapp.ui.activity.IngredientAndStepActivity;
+import com.mzdhr.bakingapp.ui.activity.StepDetailActivity;
+import com.mzdhr.bakingapp.ui.fragment.StepDetailFragment;
 import com.mzdhr.bakingapp.R;
 import com.mzdhr.bakingapp.helper.Constant;
 import com.mzdhr.bakingapp.model.Recipe;
@@ -36,7 +36,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     final private ListItemClickListener mOnClickListener;
     private Recipe mRecipe;
     private ArrayList<Step> mSteps;
-    private final StepsActivity mParentActivity;
+    private final IngredientAndStepActivity mParentActivity;
     private final boolean mTwoPane;
 
     public interface ListItemClickListener{
@@ -45,7 +45,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
 
 
-    public StepAdapter(StepsActivity parent, Recipe recipe, boolean twoPane){
+    public StepAdapter(IngredientAndStepActivity parent, Recipe recipe, boolean twoPane){
         mRecipe = recipe;
         mSteps = mRecipe.getSteps();
         mParentActivity = parent;

@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
-import com.mzdhr.bakingapp.MainActivity;
+import com.mzdhr.bakingapp.ui.activity.MainActivity;
 import com.mzdhr.bakingapp.R;
 
 /**

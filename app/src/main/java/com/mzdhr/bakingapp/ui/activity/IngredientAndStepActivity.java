@@ -1,4 +1,4 @@
-package com.mzdhr.bakingapp;
+package com.mzdhr.bakingapp.ui.activity;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mzdhr.bakingapp.R;
 import com.mzdhr.bakingapp.adapter.StepAdapter;
 import com.mzdhr.bakingapp.helper.Constant;
 import com.mzdhr.bakingapp.model.Recipe;
@@ -36,18 +37,18 @@ import static android.support.v4.app.NavUtils.navigateUpFromSameTask;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class StepsActivity extends AppCompatActivity implements StepAdapter.ListItemClickListener{
+public class IngredientAndStepActivity extends AppCompatActivity implements StepAdapter.ListItemClickListener{
 
     // Objects
-    private static String TAG = StepsActivity.class.getSimpleName();
+    private static String TAG = IngredientAndStepActivity.class.getSimpleName();
 
     // Views
     @BindView(R.id.ingredient_textView)
-    TextView mIngredientTextView;
+    public TextView mIngredientTextView;
     @BindView(R.id.item_list)
-    RecyclerView mStepsRecyclerView;
+    public RecyclerView mStepsRecyclerView;
     @BindView(R.id.add_widget_button_imageView)
-    ImageView mAddWidgetButton;
+    public ImageView mAddWidgetButton;
 
 
     /**
@@ -205,7 +206,7 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
 //    public static class SimpleItemRecyclerViewAdapter
 //            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 //
-//        private final StepsActivity mParentActivity;
+//        private final IngredientAndStepActivity mParentActivity;
 //        private final List<DummyContent.DummyItem> mValues;
 //        private final boolean mTwoPane;
 //        private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -230,7 +231,7 @@ public class StepsActivity extends AppCompatActivity implements StepAdapter.List
 //            }
 //        };
 
-//        SimpleItemRecyclerViewAdapter(StepsActivity parent,
+//        SimpleItemRecyclerViewAdapter(IngredientAndStepActivity parent,
 //                                      List<DummyContent.DummyItem> items,
 //                                      boolean twoPane) {
 //            mValues = items;
