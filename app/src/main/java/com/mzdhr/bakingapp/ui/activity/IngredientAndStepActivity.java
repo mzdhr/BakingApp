@@ -3,7 +3,6 @@ package com.mzdhr.bakingapp.ui.activity;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -71,15 +70,15 @@ public class IngredientAndStepActivity extends AppCompatActivity{
         }
         ButterKnife.bind(this);
 
-        // FIXME: 16/03/2018 No need! cuz did not trigger!
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(Constant.RECIPE_ARRAY_KEY)) {
-                mRecipe = Parcels.unwrap((Parcelable) savedInstanceState.getParcelableArrayList(Constant.RECIPE_ARRAY_KEY));
-                Log.d(TAG, "onCreate: Getting mRecipe from savedInstanceState");
-                Log.d(TAG, "onCreate: Getting mRecipe from savedInstanceState Name -> " + mRecipe.getName());
-                Log.d(TAG, "onCreate: Getting mRecipe from savedInstanceState ShortDescription -> " + mRecipe.getSteps().get(0).getShortDescription());
-            }
-        }
+//        // FIXME: 16/03/2018 No need! cuz did not trigger!
+//        if (savedInstanceState != null) {
+//            if (savedInstanceState.containsKey(Constant.RECIPE_ARRAY_KEY)) {
+//                mRecipe = Parcels.unwrap((Parcelable) savedInstanceState.getParcelableArrayList(Constant.RECIPE_ARRAY_KEY));
+//                Log.d(TAG, "onCreate: Getting mRecipe from savedInstanceState");
+//                Log.d(TAG, "onCreate: Getting mRecipe from savedInstanceState Name -> " + mRecipe.getName());
+//                Log.d(TAG, "onCreate: Getting mRecipe from savedInstanceState ShortDescription -> " + mRecipe.getSteps().get(0).getShortDescription());
+//            }
+//        }
 
         // FIXME: 16/03/2018 This is needed.
         if (getIntent().hasExtra(Constant.RECIPE_ARRAY_KEY)) {

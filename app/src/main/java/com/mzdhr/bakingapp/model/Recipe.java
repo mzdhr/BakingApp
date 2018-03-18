@@ -1,7 +1,6 @@
 package com.mzdhr.bakingapp.model;
 
 import org.parceler.Parcel;
-
 import java.util.ArrayList;
 
 /**

@@ -91,6 +91,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
                 arguments.putString(Constant.STEP_VIDEO_URL_KEY, mRecipe.getSteps().get(getAdapterPosition()).getVideoURL());
                 arguments.putString(Constant.STEP_DESCRIPTION_KEY, mRecipe.getSteps().get(getAdapterPosition()).getDescription());
                 arguments.putParcelable(Constant.STEP_LIST_KEY, Parcels.wrap(mRecipe.getSteps()));
+                arguments.putInt(Constant.CURRENT_STEP_KEY, getAdapterPosition());
             } else {
                 // Passing Data to StepDetailActivity --> Via Intent Bundle.
                 // For Phone
@@ -99,6 +100,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
                 intent.putExtra(Constant.STEP_VIDEO_URL_KEY, mRecipe.getSteps().get(getAdapterPosition()).getVideoURL());
                 intent.putExtra(Constant.STEP_DESCRIPTION_KEY, mRecipe.getSteps().get(getAdapterPosition()).getDescription());
                 intent.putExtra(Constant.STEP_LIST_KEY, Parcels.wrap(mRecipe.getSteps()));
+                intent.putExtra(Constant.CURRENT_STEP_KEY, getAdapterPosition());
                 context.startActivity(intent);
             }
         }

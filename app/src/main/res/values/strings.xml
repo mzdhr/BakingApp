@@ -10,4 +10,6 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="add_widget_help">Open Baking App and select a recipe, then click on widget icon next to the Ingredient.</string>
+    <string name="back_step_button">Back</string>
+    <string name="next_step_button">Next</string>
 </resources>

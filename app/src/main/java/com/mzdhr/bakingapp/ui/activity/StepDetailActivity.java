@@ -46,7 +46,7 @@ public class StepDetailActivity extends AppCompatActivity{
     private static String TAG = StepDetailActivity.class.getSimpleName();
     private String mVideoUrl = "";
     private String mDescription = "";
-    private String mThumbnailUrl = "";
+    private int mCurrentStep = 0;
     ArrayList<Step> mSteps = new ArrayList<>();
 
 
@@ -61,21 +61,11 @@ public class StepDetailActivity extends AppCompatActivity{
             mVideoUrl = getIntent().getStringExtra(Constant.STEP_VIDEO_URL_KEY);
             mDescription = getIntent().getStringExtra(Constant.STEP_DESCRIPTION_KEY);
             mSteps = Parcels.unwrap(getIntent().getParcelableExtra(Constant.STEP_LIST_KEY));
+            mCurrentStep = getIntent().getIntExtra(Constant.CURRENT_STEP_KEY, 0);
+
 
             Log.d(TAG, "onCreate: mVideoURL: " + mVideoUrl);
             Log.d(TAG, "onCreate: mDescription: " + mDescription);
-            // TODO: 16/03/2018 setObserver here!
-//            if (mObserverFromStepDetailActivity != null) {
-//                mObserverFromStepDetailActivity.getVideoURLandDescription(mVideoUrl, mDescription);
-//            }
-
-
-//            Bundle bundle = new Bundle();
-//            bundle.putString(Constant.STEP_VIDEO_URL_KEY, mVideoUrl);
-//            bundle.putString(Constant.STEP_DESCRIPTION_KEY, mDescription);
-//            // set Fragment class Arguments
-//            StepDetailFragment stepDetailFragment = new StepDetailFragment();
-//            stepDetailFragment.setArguments(bundle);
 
         }
 
@@ -101,7 +91,7 @@ public class StepDetailActivity extends AppCompatActivity{
             arguments.putString(Constant.STEP_VIDEO_URL_KEY, mVideoUrl);
             arguments.putString(Constant.STEP_DESCRIPTION_KEY, mDescription);
             arguments.putParcelable(Constant.STEP_LIST_KEY, Parcels.wrap(mSteps));
-
+            arguments.putInt(Constant.CURRENT_STEP_KEY, mCurrentStep);
 
             arguments.putString(StepDetailFragment.ARG_ITEM_ID, getIntent().getStringExtra(StepDetailFragment.ARG_ITEM_ID));
             StepDetailFragment fragment = new StepDetailFragment();

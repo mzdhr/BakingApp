@@ -63,7 +63,7 @@
             style="@style/ButtonStyle"
             />
         <TextView
-            android:id="@+id/previous_button_textView"
+            android:id="@+id/back_button_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Back"
