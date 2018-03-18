@@ -37,7 +37,7 @@ import static android.support.v4.app.NavUtils.navigateUpFromSameTask;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class IngredientAndStepActivity extends AppCompatActivity implements StepAdapter.ListItemClickListener{
+public class IngredientAndStepActivity extends AppCompatActivity{
 
     // Objects
     private static String TAG = IngredientAndStepActivity.class.getSimpleName();
@@ -196,10 +196,6 @@ public class IngredientAndStepActivity extends AppCompatActivity implements Step
     }
 
 
-    @Override
-    public void onListItemClick(int clickedItemIndex) {
-
-    }
 
 
 

@@ -36,7 +36,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements RecipeAdapter.ListItemClickListener {
+public class MainActivity extends AppCompatActivity{
     // Object
     private static final String TAG = MainActivity.class.getSimpleName();
     public static ArrayList<Recipe> mRecipes;
@@ -172,17 +172,5 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onListItemClick(int clickedItemIndex) {
-        // Testing Parceler Lib
-        Intent intent = new Intent(MainActivity.this, IngredientAndStepActivity.class);
-        Parcelable recipeParcelable = Parcels.wrap(mRecipes.get(clickedItemIndex));
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constant.RECIPE_ARRAY_KEY, recipeParcelable);
-        intent.putExtras(bundle);
-        //intent.putExtra(Constant.RECIPE_ARRAY_KEY, mRecipes.get(clickedItemIndex));
-        startActivity(intent);
     }
 }

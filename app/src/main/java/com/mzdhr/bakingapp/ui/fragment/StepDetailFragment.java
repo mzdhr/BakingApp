@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,8 +37,10 @@ import com.mzdhr.bakingapp.R;
 import com.mzdhr.bakingapp.dummy.DummyContent;
 import com.mzdhr.bakingapp.helper.Constant;
 import com.mzdhr.bakingapp.model.Step;
-import com.mzdhr.bakingapp.ui.activity.StepDetailActivity;
 import com.mzdhr.bakingapp.ui.activity.IngredientAndStepActivity;
+import com.mzdhr.bakingapp.ui.activity.StepDetailActivity;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -130,14 +133,14 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
 //        savedInstanceState.getString()
         mVideoUrl = getArguments().getString(Constant.STEP_VIDEO_URL_KEY);
         mDescription = getArguments().getString(Constant.STEP_DESCRIPTION_KEY);
-//        mSteps = Parcels.unwrap(getArguments().getParcelable(Constant.STEP_LIST_KEY));
-//
-//        for (int i = 0; i < mSteps.size(); i++) {
-//            Log.d(TAG, "onCreateView: " + mSteps.get(i).getDescription());
-//            Log.d(TAG, "onCreateView: " + mSteps.get(i).getVideoURL());
-//        }
-//        Log.d(TAG, "onCreate: mVideoURL: " + mVideoUrl);
-//        Log.d(TAG, "onCreate: mDescription: " + mDescription);
+        mSteps = Parcels.unwrap(getArguments().getParcelable(Constant.STEP_LIST_KEY));
+
+        for (int i = 0; i < mSteps.size(); i++) {
+            Log.d(TAG, "onCreateView: " + mSteps.get(i).getDescription());
+            Log.d(TAG, "onCreateView: " + mSteps.get(i).getVideoURL());
+        }
+        Log.d(TAG, "onCreate: mVideoURL: " + mVideoUrl);
+        Log.d(TAG, "onCreate: mDescription: " + mDescription);
 
         // Find Views
         mPlayerView = rootView.findViewById(R.id.player_view);

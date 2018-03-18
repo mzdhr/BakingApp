@@ -5,19 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mzdhr.bakingapp.ui.activity.IngredientAndStepActivity;
-import com.mzdhr.bakingapp.ui.activity.StepDetailActivity;
-import com.mzdhr.bakingapp.ui.fragment.StepDetailFragment;
 import com.mzdhr.bakingapp.R;
 import com.mzdhr.bakingapp.helper.Constant;
 import com.mzdhr.bakingapp.model.Recipe;
 import com.mzdhr.bakingapp.model.Step;
+import com.mzdhr.bakingapp.ui.activity.IngredientAndStepActivity;
+import com.mzdhr.bakingapp.ui.activity.StepDetailActivity;
+import com.mzdhr.bakingapp.ui.fragment.StepDetailFragment;
 
 import org.parceler.Parcels;
 
@@ -30,26 +29,18 @@ import butterknife.ButterKnife;
  * Created by mohammad on 12/03/2018.
  */
 
-public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder>{
+public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder> {
+    // Objects
     private static final String TAG = StepAdapter.class.getSimpleName();
-    private Context mContext;
-    final private ListItemClickListener mOnClickListener;
     private Recipe mRecipe;
     private ArrayList<Step> mSteps;
     private final IngredientAndStepActivity mParentActivity;
     private final boolean mTwoPane;
 
-    public interface ListItemClickListener{
-        void onListItemClick(int clickedItemIndex);
-    }
-
-
-
-    public StepAdapter(IngredientAndStepActivity parent, Recipe recipe, boolean twoPane){
+    public StepAdapter(IngredientAndStepActivity parent, Recipe recipe, boolean twoPane) {
         mRecipe = recipe;
         mSteps = mRecipe.getSteps();
         mParentActivity = parent;
-        mOnClickListener = parent;
         mTwoPane = twoPane;
     }
 
@@ -72,7 +63,8 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     }
 
     public class StepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-       @BindView(R.id.content) TextView mStepTitleTextView;
+        @BindView(R.id.content)
+        TextView mStepTitleTextView;
 
         public StepViewHolder(View itemView) {
             super(itemView);
@@ -80,7 +72,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
             itemView.setOnClickListener(this);
         }
 
-        void bind(int position){
+        void bind(int position) {
             String stepNumber = mSteps.get(position).getId();
             String stepShortDescription = mSteps.get(position).getShortDescription();
             mStepTitleTextView.setText(stepNumber + ". " + stepShortDescription);
@@ -88,30 +80,25 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
         @Override
         public void onClick(View v) {
-            mOnClickListener.onListItemClick(getAdapterPosition());
-            //DummyContent.DummyItem item = (DummyContent.DummyItem) v.getTag();
-
             if (mTwoPane) {
                 Bundle arguments = new Bundle();
                 arguments.putString(StepDetailFragment.ARG_ITEM_ID, mSteps.get(getAdapterPosition()).getId());
                 StepDetailFragment fragment = new StepDetailFragment();
                 fragment.setArguments(arguments);
                 mParentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment).commit();
-
-                // Passing data to Tablet fragment details
+                // Passing Data to StepDetailFragment --> Via Fragment Bundle Arguments.
+                // For Tablet
                 arguments.putString(Constant.STEP_VIDEO_URL_KEY, mRecipe.getSteps().get(getAdapterPosition()).getVideoURL());
                 arguments.putString(Constant.STEP_DESCRIPTION_KEY, mRecipe.getSteps().get(getAdapterPosition()).getDescription());
                 arguments.putParcelable(Constant.STEP_LIST_KEY, Parcels.wrap(mRecipe.getSteps()));
-                //arguments.putString(Constant.STEP_THUMBNAIL_URL_KEY, mRecipe.getSteps().get(getAdapterPosition()).getThumbnailURL());
-
             } else {
+                // Passing Data to StepDetailActivity --> Via Intent Bundle.
+                // For Phone
                 Context context = v.getContext();
                 Intent intent = new Intent(context, StepDetailActivity.class);
-                //intent.putExtra(StepDetailFragment.ARG_ITEM_ID, mRecipe.get(getAdapterPosition()).getId());
-                // FIXME: 16/03/2018 if getVidewURL == "" then use getThumnail!!
                 intent.putExtra(Constant.STEP_VIDEO_URL_KEY, mRecipe.getSteps().get(getAdapterPosition()).getVideoURL());
                 intent.putExtra(Constant.STEP_DESCRIPTION_KEY, mRecipe.getSteps().get(getAdapterPosition()).getDescription());
-                Log.d(TAG, "onClick: getAdapterPosition: " + getAdapterPosition());
+                intent.putExtra(Constant.STEP_LIST_KEY, Parcels.wrap(mRecipe.getSteps()));
                 context.startActivity(intent);
             }
         }
