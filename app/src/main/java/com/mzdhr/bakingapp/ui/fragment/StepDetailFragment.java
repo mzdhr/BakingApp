@@ -2,17 +2,20 @@ package com.mzdhr.bakingapp.ui.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -150,12 +153,21 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
         mBackButton = (TextView) rootView.findViewById(R.id.previous_button_textView);
         mCurrentTextView = (TextView) rootView.findViewById(R.id.current_textView);
 
+        // Hide Buttons on Tablet
+        // fixme Create antoher layout for tablet -- DONE
+//        if (getResources().getBoolean(R.bool.isTablet)) {
+//            mNextButton.setVisibility(View.GONE);
+//            mBackButton.setVisibility(View.GONE);
+//            mCurrentTextView.setVisibility(View.GONE);
+//        }
+
         mNextButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
+
 
         // Preparing Media Session
         mMediaSession = new MediaSessionCompat(getActivity(), TAG);
@@ -207,6 +219,28 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
                 mPlayer.prepare(mediaSource);
                 mPlayer.setPlayWhenReady(true);
             }
+        }
+
+
+        // If phone goes to landscape --Then--> Maximize the PlayerView to FullScreen
+        // If a Phone && on Landscape
+        if (!getResources().getBoolean(R.bool.isTablet) &&
+                getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Set Activity Screen to Immersive --> https://developer.android.com/training/system-ui/immersive.htm
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_IMMERSIVE
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            );
+            // Hide ActionBar
+            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+            // Hide all views except mPlayerView, So it become a fullscreen video
+            mNextButton.setVisibility(View.GONE);
+            mBackButton.setVisibility(View.GONE);
+            mCurrentTextView.setVisibility(View.GONE);
+            mDetailTextView.setVisibility(View.GONE);
+            // Make mPlayerView Width and Height match_parent in size.
+            mPlayerView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }
 
         // Setting Details in mDetailTextView

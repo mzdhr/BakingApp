@@ -1,0 +1,75 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/player_view"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:resize_mode="fixed_width"
+        android:background="#0f0b0e"
+        />
+
+    <ImageView
+        android:id="@+id/no_video_available_ImageView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:src="@drawable/notavailable"
+        android:scaleType="centerInside"
+        android:background="#0f0b0e"
+        />
+
+    <TextView
+        android:id="@+id/item_detail"
+        android:layout_below="@id/player_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:context="com.mzdhr.bakingapp.ui.fragment.StepDetailFragment"
+        android:background="@color/colorSubLayout"
+        android:textColor="@color/colorTextLayout"
+        android:fontFamily="casual"
+        android:textSize="16sp"
+        android:layout_above="@id/button_layout"
+        />
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorHeadLayout"
+        >
+
+        <TextView
+            android:id="@+id/next_button_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:layout_alignParentRight="true"
+            style="@style/ButtonStyle"
+            />
+        <TextView
+            android:id="@+id/current_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0/10"
+            android:layout_centerHorizontal="true"
+            style="@style/ButtonStyle"
+            />
+        <TextView
+            android:id="@+id/previous_button_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_alignParentStart="true"
+            style="@style/ButtonStyle"
+            />
+
+    </RelativeLayout>
+</RelativeLayout>

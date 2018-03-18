@@ -1,9 +1,8 @@
 package com.mzdhr.bakingapp.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +19,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mzdhr.bakingapp.R;
 import com.mzdhr.bakingapp.adapter.RecipeAdapter;
-import com.mzdhr.bakingapp.helper.Constant;
 import com.mzdhr.bakingapp.model.Ingredient;
 import com.mzdhr.bakingapp.model.Recipe;
 import com.mzdhr.bakingapp.model.Step;
@@ -28,7 +26,6 @@ import com.mzdhr.bakingapp.model.Step;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -36,10 +33,10 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     // Object
     private static final String TAG = MainActivity.class.getSimpleName();
-    public static ArrayList<Recipe> mRecipes;
+    public static ArrayList<Recipe> mRecipes = new ArrayList<>();
     private RecipeAdapter mRecipeAdapter;
 
     // Views
@@ -47,7 +44,6 @@ public class MainActivity extends AppCompatActivity{
     public RecyclerView mRecipeRecyclerView;
     @BindString(R.string.app_name)
     public String mAppName;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,17 +53,23 @@ public class MainActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
-        requestByVolley();
-
-        // Setting RecyclerView
-        // TODO: 11/03/2018 if tablet > 600:
-//        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        mRecipeRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecipeRecyclerView.setHasFixedSize(true);
-
-        mRecipes = new ArrayList<>();
+        requestDataByVolley();
+        setRecyclerView();
         setAdapter();
+    }
+
+    private void setRecyclerView() {
+        // Determined if Table or Phone by using is_tablet.xml (one for normal, one for screen above w900dp) in values directory.
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+            mRecipeRecyclerView.setLayoutManager(gridLayoutManager);
+            Log.d(TAG, "onCreate: It is a Tablet");
+        } else {
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            mRecipeRecyclerView.setLayoutManager(linearLayoutManager);
+            Log.d(TAG, "onCreate: It is a Phone");
+        }
+        mRecipeRecyclerView.setHasFixedSize(true);
     }
 
     private void setAdapter() {
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity{
         mRecipeRecyclerView.setAdapter(mRecipeAdapter);
     }
 
-    private void requestByVolley() {
+    private void requestDataByVolley() {
         String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
         // Create RequestQueue object
@@ -143,7 +145,6 @@ public class MainActivity extends AppCompatActivity{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // TODO: Handle error
                 Log.d(TAG, "onErrorResponse: " + error.getMessage());
             }
         });
@@ -154,23 +155,16 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
