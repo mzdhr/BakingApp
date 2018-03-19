@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -40,6 +42,7 @@ import com.mzdhr.bakingapp.helper.Constant;
 import com.mzdhr.bakingapp.model.Step;
 import com.mzdhr.bakingapp.ui.activity.IngredientAndStepActivity;
 import com.mzdhr.bakingapp.ui.activity.StepDetailActivity;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -79,9 +82,11 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
     private TextView mNextButton;
     private TextView mBackButton;
     private TextView mCurrentTextView;
+    private ImageView mRecipeStepDetailImageView;
 
     int mTotalSteps;
     int mCurrentStep = 0;
+    private long mVideoPlayingPosition;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -118,6 +123,7 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
                 mDescription = savedInstanceState.getString(Constant.STEP_DESCRIPTION_KEY);
                 mSteps = Parcels.unwrap((Parcelable) savedInstanceState.getParcelable(Constant.STEP_LIST_KEY));
                 mCurrentStep = savedInstanceState.getInt(Constant.CURRENT_STEP_KEY);
+                mVideoPlayingPosition = savedInstanceState.getLong(Constant.CURRENT_VIDEO_PLAY_POSITION_KEY);
             }
         }
 
@@ -128,6 +134,7 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
         mNextButton = (TextView) rootView.findViewById(R.id.next_button_textView);
         mBackButton = (TextView) rootView.findViewById(R.id.back_button_textView);
         mCurrentTextView = (TextView) rootView.findViewById(R.id.current_textView);
+        mRecipeStepDetailImageView = (ImageView) rootView.findViewById(R.id.recipe_step_detail_imageView);
 
 
         mNextButton.setOnClickListener(new OnClickListener() {
@@ -148,6 +155,7 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
                     populateStepValues(
                             mSteps.get(mCurrentStep).getDescription(),
                             mSteps.get(mCurrentStep).getVideoURL(),
+                            mSteps.get(mCurrentStep).getThumbnailURL(),
                             String.valueOf("Step # " + mCurrentStep));
                 }
             }
@@ -171,6 +179,7 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
                     populateStepValues(
                             mSteps.get(mCurrentStep).getDescription(),
                             mSteps.get(mCurrentStep).getVideoURL(),
+                            mSteps.get(mCurrentStep).getThumbnailURL(),
                             String.valueOf("Step # " + mCurrentStep));
                 }
             }
@@ -179,6 +188,7 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
         populateStepValues(
                 mSteps.get(mCurrentStep).getDescription(),
                 mSteps.get(mCurrentStep).getVideoURL(),
+                mSteps.get(mCurrentStep).getThumbnailURL(),
                 String.valueOf("Step # " + mCurrentStep));
 
 
@@ -213,10 +223,11 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
         outState.getString(Constant.STEP_DESCRIPTION_KEY, mDescription);
         outState.putParcelable(Constant.STEP_LIST_KEY, Parcels.wrap(mSteps));
         outState.putInt(Constant.CURRENT_STEP_KEY, mCurrentStep);
+        outState.putLong(Constant.CURRENT_VIDEO_PLAY_POSITION_KEY, mVideoPlayingPosition);
     }
 
 
-    private void populateStepValues(String description, String videoUrl, String currentStep) {
+    private void populateStepValues(String description, String videoUrl, String thumbnailUrl, String currentStep) {
         // Populate Video
         // Preparing Media Session
         mMediaSession = new MediaSessionCompat(getActivity(), TAG);
@@ -267,6 +278,10 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
                 mPlayer.prepare(mediaSource);
                 mPlayer.setPlayWhenReady(true);
             }
+
+            if (mVideoPlayingPosition != C.TIME_UNSET) {
+                mPlayer.seekTo(mVideoPlayingPosition);
+            }
         }
 
         // Populate Description
@@ -274,6 +289,20 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
 
         // Populate Counting TextView -> mCurrentTextView
         mCurrentTextView.setText(currentStep);
+
+        // Populate ThumbnailUrl
+        try {
+            if (!thumbnailUrl.equals("")) {
+                mRecipeStepDetailImageView.setVisibility(View.VISIBLE);
+                Picasso.with(getContext())
+                        .load(thumbnailUrl)
+                        .placeholder(R.drawable.ic_stove)
+                        .error(R.drawable.ic_stove)
+                        .into(mRecipeStepDetailImageView);
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "bind: " + e.toString());
+        }
     }
 
     @Override
@@ -289,8 +318,23 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
     public void onPause() {
         super.onPause();
         if (!mVideoUrl.equals("") && mPlayer != null) {
+            // Restore Player Position
+            mVideoPlayingPosition = mPlayer.getCurrentPosition();
             // Pause Playing
             mPlayer.setPlayWhenReady(false);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Release the player when the activity is destroyed.
+        if (!mVideoUrl.equals("") && mPlayer != null) {
+            // Stop Playing
+            mPlayer.stop();
+            mPlayer.release();
+            mPlayer = null;
+            mMediaSession.setActive(false);
         }
     }
 

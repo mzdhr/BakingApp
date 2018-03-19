@@ -9,6 +9,14 @@
     android:padding="8dp"
     >
 
+
+    <ImageView
+        android:id="@+id/recipe_imageView"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_stove"
+        />
+
     <ImageView
         android:id="@+id/imageIcon"
         android:layout_width="64dp"
@@ -20,10 +28,11 @@
 
     <TextView
         android:id="@+id/recipe_name_textView"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_toEndOf="@id/imageIcon"
+        android:layout_toEndOf="@id/recipe_imageView"
         android:fontFamily="casual"
         android:gravity="start"
         android:maxLines="1"

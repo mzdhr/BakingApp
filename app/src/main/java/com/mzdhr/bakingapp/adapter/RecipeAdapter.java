@@ -5,16 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mzdhr.bakingapp.R;
 import com.mzdhr.bakingapp.helper.Constant;
 import com.mzdhr.bakingapp.model.Recipe;
 import com.mzdhr.bakingapp.ui.activity.IngredientAndStepActivity;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -60,6 +63,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         TextView mRecipeName;
         @BindView(R.id.recipe_servings_textView)
         TextView mRecipeServings;
+        @BindView(R.id.recipe_imageView)
+        ImageView mRecipeImageView;
 
         public RecipeViewHolder(View itemView) {
             super(itemView);
@@ -70,6 +75,19 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         void bind(int position) {
             mRecipeName.setText(mRecipes.get(position).getName());
             mRecipeServings.setText(mContext.getString(R.string.text_servings) + mRecipes.get(position).getServings().toString());
+
+            try {
+                if (!mRecipes.get(position).getImage().equals("")) {
+                    Picasso.with(mContext)
+                            .load(mRecipes.get(position).getImage())
+                            .placeholder(R.drawable.ic_stove)
+                            .error(R.drawable.ic_stove)
+                            .into(mRecipeImageView);
+                }
+            } catch (Exception e) {
+                Log.d(TAG, "bind: " + e.toString());
+            }
+
         }
 
         @Override
