@@ -5,11 +5,9 @@ package com.mzdhr.bakingapp.helper;
  */
 
 public class Constant {
-
     public static final String RECIPE_ARRAY_KEY = "recipe_array";
     public static final String STEP_VIDEO_URL_KEY = "recipe_video";
     public static final String STEP_DESCRIPTION_KEY = "step_description";
-    public static final String STEP_THUMBNAIL_URL_KEY = "step_thumbnail";
     public static final String STEP_LIST_KEY = "step_list";
     public static final String CURRENT_STEP_KEY = "current_step";
 }

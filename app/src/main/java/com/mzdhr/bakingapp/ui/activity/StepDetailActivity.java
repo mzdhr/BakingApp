@@ -25,30 +25,12 @@ import java.util.ArrayList;
  */
 public class StepDetailActivity extends AppCompatActivity{
 
-
-    public interface ObserverFromStepDetailActivity {
-        void getVideoURLandDescription(String videoURL, String description);
-    }
-
-    private ObserverFromStepDetailActivity mObserverFromStepDetailActivity = null;
-
-
-    public void setObserver(final ObserverFromStepDetailActivity listener) {
-        mObserverFromStepDetailActivity = listener;
-    }
-
-    public void removeObserver() {
-        mObserverFromStepDetailActivity = null;
-    }
-
-
     // Objects
     private static String TAG = StepDetailActivity.class.getSimpleName();
     private String mVideoUrl = "";
     private String mDescription = "";
     private int mCurrentStep = 0;
     ArrayList<Step> mSteps = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +45,8 @@ public class StepDetailActivity extends AppCompatActivity{
             mSteps = Parcels.unwrap(getIntent().getParcelableExtra(Constant.STEP_LIST_KEY));
             mCurrentStep = getIntent().getIntExtra(Constant.CURRENT_STEP_KEY, 0);
 
-
             Log.d(TAG, "onCreate: mVideoURL: " + mVideoUrl);
             Log.d(TAG, "onCreate: mDescription: " + mDescription);
-
         }
 
         // Show the Up button in the action bar.
@@ -115,6 +95,4 @@ public class StepDetailActivity extends AppCompatActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

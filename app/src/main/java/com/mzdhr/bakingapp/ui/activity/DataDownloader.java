@@ -40,12 +40,12 @@ public class DataDownloader {
     private static final int DELAY_MILLIS = 3000;
     final static ArrayList<Recipe> mRecipes = new ArrayList<>();
 
-    interface DelayerCallback {
+    interface Callback {
         void onDone(ArrayList<Recipe> recipes);
     }
 
-    static void requestDataByVolley(Context context, final DelayerCallback callback,
-                                    @Nullable final SimpleIdlingResource idlingResource) {
+    static void requestDataByVolley(Context context, final Callback callback,
+                                    @Nullable final DataDownloaderIdlingResource idlingResource) {
         /**
          * The IdlingResource is null in production as set by the @Nullable annotation which means
          * the value is allowed to be null.
@@ -70,7 +70,7 @@ public class DataDownloader {
             public void onResponse(JSONArray response) {
 
                 JSONObject jsonObject = null;
-                //mRecipes = new ArrayList<>();
+                mRecipes.clear();
 
                 try {
                     for (int i = 0; i < response.length(); i++) {
@@ -119,7 +119,6 @@ public class DataDownloader {
                 }
 
 
-
                 /**
                  * {@link postDelayed} allows the {@link Runnable} to be run after the specified amount of
                  * time set in DELAY_MILLIS elapses. An object that implements the Runnable interface
@@ -141,8 +140,6 @@ public class DataDownloader {
 
         // Start that Request Object
         requestQueue.add(jsonArrayRequest);
-        //  requestQueue.start();
-
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

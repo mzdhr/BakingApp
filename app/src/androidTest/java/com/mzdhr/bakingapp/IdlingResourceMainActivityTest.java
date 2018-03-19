@@ -25,7 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class IdlingResourceMainActivityTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule =

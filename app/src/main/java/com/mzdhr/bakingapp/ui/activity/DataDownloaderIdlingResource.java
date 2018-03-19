@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Created by mohammad on 19/03/2018.
  */
 
-public class SimpleIdlingResource implements IdlingResource {
+public class DataDownloaderIdlingResource implements IdlingResource {
     @Nullable
     private volatile ResourceCallback mCallback;
 
