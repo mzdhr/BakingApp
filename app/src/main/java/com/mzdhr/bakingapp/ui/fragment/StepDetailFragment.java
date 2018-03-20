@@ -141,15 +141,15 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
             @Override
             public void onClick(View v) {
                 if (mCurrentStep < mTotalSteps - 1) {
-                    // TODO: 18/03/2018 stop the video if playing
                     // Stop Playing
                     if (mPlayer != null) {
-                        // Stop Playing
                         mPlayer.stop();
                         mPlayer.release();
                         mPlayer = null;
                         mMediaSession.setActive(false);
                     }
+                    // Reset Position
+                    mVideoPlayingPosition = 0;
 
                     mCurrentStep = mCurrentStep + 1;
                     populateStepValues(
@@ -165,15 +165,15 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
             @Override
             public void onClick(View v) {
                 if (mCurrentStep > 0) {
-                    // TODO: 18/03/2018 stop the video if playing
                     // Stop Playing
                     if (mPlayer != null) {
-                        // Stop Playing
                         mPlayer.stop();
                         mPlayer.release();
                         mPlayer = null;
                         mMediaSession.setActive(false);
                     }
+                    // Reset Position
+                    mVideoPlayingPosition = 0;
 
                     mCurrentStep = mCurrentStep - 1;
                     populateStepValues(
@@ -308,9 +308,41 @@ public class StepDetailFragment extends Fragment implements OnClickListener, Exo
     @Override
     public void onResume() {
         super.onResume();
-        if (!mVideoUrl.equals("") && mPlayer != null) {
-            // Resume Playing
-            mPlayer.setPlayWhenReady(true);
+        if (mVideoUrl.equals("") && mPlayer != null) {
+            mPlayerView.setVisibility(View.GONE);
+            mNoAvailableImageView.setVisibility(View.VISIBLE);
+        } else {
+            mPlayerView.setVisibility(View.VISIBLE);
+            mNoAvailableImageView.setVisibility(View.GONE);
+            // Preparing the Player
+            if (mPlayer == null) {
+                TrackSelector trackSelector = new DefaultTrackSelector();
+                LoadControl loadControl = new DefaultLoadControl();
+                mPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
+                mPlayerView.setPlayer(mPlayer);
+
+                mPlayer.addListener(this);
+
+                // Preparing the MediaSource
+                String userAgent = Util.getUserAgent(getActivity(), getContext().getString(R.string.app_name));
+                DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(getActivity(), userAgent);
+                DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+
+                MediaSource mediaSource = new ExtractorMediaSource(
+                        Uri.parse(mVideoUrl),
+                        dataSourceFactory,
+                        extractorsFactory,
+                        null,
+                        null);
+
+                mPlayer.prepare(mediaSource);
+                mPlayer.setPlayWhenReady(true);
+            }
+            
+            if (mVideoPlayingPosition != C.TIME_UNSET) {
+                mPlayer.seekTo(mVideoPlayingPosition);
+            }
+
         }
     }
 
