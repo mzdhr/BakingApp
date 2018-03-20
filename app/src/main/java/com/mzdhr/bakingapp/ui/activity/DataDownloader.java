@@ -2,7 +2,6 @@ package com.mzdhr.bakingapp.ui.activity;
 
 
 import android.content.Context;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -129,6 +128,11 @@ public class DataDownloader {
                  */
 
 
+                callback.onDone(mRecipes);
+
+                if (idlingResource != null) {
+                    idlingResource.setIdleState(true);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -137,21 +141,7 @@ public class DataDownloader {
             }
         });
 
-
         // Start that Request Object
         requestQueue.add(jsonArrayRequest);
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (callback != null) {
-                    callback.onDone(mRecipes);
-                    if (idlingResource != null) {
-                        idlingResource.setIdleState(true);
-                    }
-                }
-            }
-        }, DELAY_MILLIS);
     }
 }

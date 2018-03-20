@@ -67,9 +67,12 @@ public class MainActivity extends AppCompatActivity implements DataDownloader.Ca
     @Override
     public void onDone(ArrayList<Recipe> recipes) {
         mRecipes = recipes;
+        Log.d(TAG, "onDone: Triggered! " + mRecipes.size());
         setRecyclerView();
         setAdapter();
     }
+
+
 
     private void setRecyclerView() {
         // Determined if Table or Phone by using is_tablet.xml (one for normal, one for screen above w900dp) in values directory.
